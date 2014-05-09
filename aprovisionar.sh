@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 
 #################################################################################
-# 
-#  CONFIGURACIÓN, APROVISIONAMIENTO E INSTALACIÓN DE APLICACIÓN.
+#
+#  CONFIGURACIÃ“N, APROVISIONAMIENTO E INSTALACIÃ“N DE APLICACIÃ“N.
 #  -------------------------------------------------------------
-# 
+#
 # Nota: Necesitamos que desde 'remoto':
-# 
+#
 # - Se copie este script en la instancia
-# 
-# - Se copie un fichero aprovisionar.properites con la configuración.
-#   Al menos, deberá tener:
+#
+# - Se copie un fichero aprovisionar.properites con la configuraciÃ³n.
+#   Al menos, deberÃ¡ tener:
 #   > ----------------------------
 #   > PROXYUSER={usuario}
-#   > PROXYPASSWD={contraseña}
+#   > PROXYPASSWD={contraseÃ±a}
 #   > PROXYSERVER={servidor-proxy}
 #   > PROXYPORT={puerto-proxy}
 #   > ----------------------------
 #   > GIT_CLONE_URL=https://github.com/gmelabs/puppet.git
 #   > EXEC_ENV=BUILD (o LOCAL o {whatever}...)
 #   > ----------------------------
-#   > APP_GROUPID=acn.b.gmelabs  (groupId de la aplicación a instalar)
-#   > APP_ARTIFACTID=testweb     (artifactId de la aplicación a instalar)
+#   > APP_GROUPID=acn.b.gmelabs  (groupId de la aplicaciÃ³n a instalar)
+#   > APP_ARTIFACTID=testweb     (artifactId de la aplicaciÃ³n a instalar)
 #   > APP_REPOSITORYID=snapshots (repositorio Nexus del que descargar artefacto)
 #   > APP_FILETYPE=war           (tipo de artefacto -jar,war,ear-)
-# 
+#
 # - Se ejecute este script
 #################################################################################
 
@@ -43,8 +43,6 @@ APP_FILETYPE=`gawk     -F'=' '/^APP_FILETYPE=/{print $2}'     /tmp/aprovisionar.
 # Se adapta la instancia para que pueda conectar a Internet desde red con proxy
 export http_proxy=http://$PROXYUSER:$PROXYPASSWD@$PROXYSERVER:$PROXYPORT/
 export https_proxy=https://$PROXYUSER:$PROXYPASSWD@$PROXYSERVER:$PROXYPORT/
-
-
 # ------------------------------------------------------------------------------------------
 # Se instala Git y se descarga la configuracion desde github
 yum -y install git
@@ -63,7 +61,7 @@ export http_proxy=
 export https_proxy=
 # -------------------------------------------------------------------------------------------
 
-# Se instala la última versión de la aplicacion
+# Se instala la Ãºltima versiÃ³n de la aplicacion
 NEXUS_URL=`gawk  -F'=' '/^NEXUS_URL=/{print $2}'  /tmp/nexus.properties | sed 's/\r//g'`
 NEXUS_USER=`gawk -F'=' '/^NEXUS_USER=/{print $2}' /tmp/nexus.properties | sed 's/\r//g'`
 NEXUS_PASS=`gawk -F'=' '/^NEXUS_PASS=/{print $2}' /tmp/nexus.properties | sed 's/\r//g'`
