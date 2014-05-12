@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+export OS_TENANT_NAME=admin
+export OS_USERNAME=admin
+export OS_PASSWORD=openstack
+export OS_AUTH_URL="http://20.1.34.123:5000/v2.0/"
+
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
 
