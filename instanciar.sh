@@ -14,7 +14,7 @@ green='\e[0;32m'
 NC='\e[0m' # No Color
 echo -e "${green}ARRANCAMOS LA INSTANCIA${NC}"
 
-nova boot --image Centos-GP-CI test --flavor 74471223-9146-4248-836c-42b568d5f43b
+nova boot --image Centos-GP-CI test --flavor 5b021ae4-2ba7-4979-9bc3-56d0c5d27b58
 
 
 #comprobar el estado de la instancia y mediante un while aplicarle logica de que hasta que no este ACTIVE no incluye la LB_FL_IP
