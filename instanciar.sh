@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
-export OS_TENANT_NAME=admin
-export OS_USERNAME=admin
-export OS_PASSWORD=openstack
-export OS_AUTH_URL="http://20.1.34.123:5000/v2.0/"
+OS_TENANT_NAME=`gawk        -F'=' '/^OS_TENANT_NAME=/{print $2}'        /home/openstack/instanciar.properties`
+OS_USERNAME=`gawk        -F'=' '/^OS_USERNAME=/{print $2}'        /home/openstack/instanciar.properties`
+OS_PASSWORD=`gawk        -F'=' '/^OS_PASSWORD=/{print $2}'        /home/openstack/instanciar.properties`
+OS_AUTH_URL=`gawk        -F'=' '/^OS_AUTH_URL=/{print $2}'        /home/openstack/instanciar.properties`
+IMAGEN=`gawk        -F'=' '/^IMAGEN=/{print $2}'        /home/openstack/instanciar.properties`
+INST_NAME=`gawk        -F'=' '/^INST_NAME=/{print $2}'        /home/openstack/instanciar.properties`
+FLAVOR=`gawk        -F'=' '/^FLAVOR=/{print $2}'        /home/openstack/instanciar.properties`
+
+export OS_TENANT_NAME=$OS_TENANT_NAME
+export OS_USERNAME=$OS_USERNAME
+export OS_PASSWORD=$OS_PASSWORD
+export OS_AUTH_URL=$OS_AUTH_URL
 
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
@@ -14,7 +22,7 @@ green='\e[0;32m'
 NC='\e[0m' # No Color
 echo -e "${green}ARRANCAMOS LA INSTANCIA${NC}"
 
-nova boot --image Centos-GP-CI test --flavor 5b021ae4-2ba7-4979-9bc3-56d0c5d27b58
+nova boot --image $IMAGEN $INST_NAME --flavor $FLAVOR
 
 
 #comprobar el estado de la instancia y mediante un while aplicarle logica de que hasta que no este ACTIVE no incluye la LB_FL_IP
@@ -30,16 +38,16 @@ green='\e[0;32m'
 NC='\e[0m' # No Color
 echo -e "${green}INCLUIMOS LA IP FLOTANTE PARA ACCEDER DESDE EL EXTERIOR${NC}"
 
-nova add-floating-ip test $LB_FL_IP
+nova add-floating-ip $INST_NAME $LB_FL_IP
 
 
 sleep 10
 
 #Mostrar por pantalla las Instancias generadas
-nova list --name test
+nova list --name $INST_NAME
 
 #Exportar en una variable la IP Flotante asignada a la instancia
-export FL_IP=`nova list --name test --fields Networks | gawk -F'=' '/=/{print $2}' | gawk '{print $2}'`
+export FL_IP=`nova list --name $INST_NAME --fields Networks | gawk -F'=' '/=/{print $2}' | gawk '{print $2}'`
 
 green='\e[0;32m'
 NC='\e[0m' # No Color
@@ -52,7 +60,7 @@ sleep 30
 #sleep 450
 while true; do ping -c1 $FL_IP > /dev/null && break; done
 
-sleep 35
+sleep 50
 
 green='\e[0;32m'
 NC='\e[0m' # No Color
