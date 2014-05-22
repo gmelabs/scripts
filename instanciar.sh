@@ -25,7 +25,7 @@ echo -e "${green}ARRANCAMOS LA INSTANCIA${NC}"
 nova boot --image $IMAGEN $INST_NAME --flavor $FLAVOR
 
 
-#comproba el estado de la instancia y mediante un while aplicarle logica de que hasta que no este ACTIVE no incluye la LB_FL_IP
+#comprobar el estado de la instancia y mediante un while aplicarle logica de que hasta que no este ACTIVE no incluye la LB_FL_IP
 #Para prueba de concepto, aplicar un sleep
 
 #export ST_INST=`nova list | gawk -F'|' '/ test /{print$4}' |gawk '$1=$1'`
