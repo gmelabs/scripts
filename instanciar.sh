@@ -60,7 +60,7 @@ sleep 30
 #sleep 450
 while true; do ping -c1 $FL_IP > /dev/null && break; done
 
-sleep 60
+sleep 120
 
 green='\e[0;32m'
 NC='\e[0m' # No Color
