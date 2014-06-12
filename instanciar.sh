@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-OS_TENANT_NAME=`gawk        -F'=' '/^OS_TENANT_NAME=/{print $2}'        /home/openstack/instanciar.properties`
-OS_USERNAME=`gawk        -F'=' '/^OS_USERNAME=/{print $2}'        /home/openstack/instanciar.properties`
-OS_PASSWORD=`gawk        -F'=' '/^OS_PASSWORD=/{print $2}'        /home/openstack/instanciar.properties`
-OS_AUTH_URL=`gawk        -F'=' '/^OS_AUTH_URL=/{print $2}'        /home/openstack/instanciar.properties`
-IMAGEN=`gawk        -F'=' '/^IMAGEN=/{print $2}'        /home/openstack/instanciar.properties`
-INST_NAME=`gawk        -F'=' '/^INST_NAME=/{print $2}'        /home/openstack/instanciar.properties`
-FLAVOR=`gawk        -F'=' '/^FLAVOR=/{print $2}'        /home/openstack/instanciar.properties`
+OS_TENANT_NAME=`gawk        -F'=' '/^OS_TENANT_NAME=/{print $2}'  /home/openstack/script/properties/instanciarTEST.properties`
+OS_USERNAME=`gawk        -F'=' '/^OS_USERNAME=/{print $2}'        /home/openstack/script/properties/instanciarTEST.properties`
+OS_PASSWORD=`gawk        -F'=' '/^OS_PASSWORD=/{print $2}'        /home/openstack/script/properties/instanciarTEST.properties`
+OS_AUTH_URL=`gawk        -F'=' '/^OS_AUTH_URL=/{print $2}'        /home/openstack/script/properties/instanciarTEST.properties`
+IMAGEN=`gawk        -F'=' '/^IMAGEN=/{print $2}'                  /home/openstack/script/properties/instanciarTEST.properties`
+INST_NAME=`gawk        -F'=' '/^INST_NAME=/{print $2}'            /home/openstack/script/properties/instanciarTEST.properties`
+FLAVOR=`gawk        -F'=' '/^FLAVOR=/{print $2}'                  /home/openstack/script/properties/instanciarTEST.properties`
 
 export OS_TENANT_NAME=$OS_TENANT_NAME
 export OS_USERNAME=$OS_USERNAME
@@ -15,6 +15,8 @@ export OS_AUTH_URL=$OS_AUTH_URL
 
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
+
+echo IP_Flotante=$LB_FL_IP >> /home/openstack/fichip
 
 #Levantamos la instancia
 
@@ -74,3 +76,5 @@ sshpass -p 'temporal' scp aprovisionar.properties aprovisionar.sh root@$FL_IP:/t
 #Modifica el hostname de la instancia y ejecuta el script de aprovisionamiento
 
 sshpass -p 'temporal' ssh root@$FL_IP "sed -i 's/localhost.localdomain localhost/test/g' /etc/hosts && sed -i 's/localhost.localdomain/test/g' /etc/sysconfig/network && hostname test && '/tmp/aprovisionar.sh'"
+
+

@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-OS_TENANT_NAME=`gawk        -F'=' '/^OS_TENANT_NAME=/{print $2}'        /home/openstack/instanciarCERT.properties`
-OS_USERNAME=`gawk        -F'=' '/^OS_USERNAME=/{print $2}'        /home/openstack/instanciarCERT.properties`
-OS_PASSWORD=`gawk        -F'=' '/^OS_PASSWORD=/{print $2}'        /home/openstack/instanciarCERT.properties`
-OS_AUTH_URL=`gawk        -F'=' '/^OS_AUTH_URL=/{print $2}'        /home/openstack/instanciarCERT.properties`
-IMAGEN=`gawk        -F'=' '/^IMAGEN=/{print $2}'        /home/openstack/instanciarCERT.properties`
-INST_NAME=`gawk        -F'=' '/^INST_NAME=/{print $2}'        /home/openstack/instanciarCERT.properties`
-FLAVOR=`gawk        -F'=' '/^FLAVOR=/{print $2}'        /home/openstack/instanciarCERT.properties`
+OS_TENANT_NAME=`gawk        -F'=' '/^OS_TENANT_NAME=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+OS_USERNAME=`gawk        -F'=' '/^OS_USERNAME=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+OS_PASSWORD=`gawk        -F'=' '/^OS_PASSWORD=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+OS_AUTH_URL=`gawk        -F'=' '/^OS_AUTH_URL=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+IMAGEN=`gawk        -F'=' '/^IMAGEN=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+INST_NAME=`gawk        -F'=' '/^INST_NAME=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
+FLAVOR=`gawk        -F'=' '/^FLAVOR=/{print $2}'        /home/openstack/script/properties/instanciarCERT.properties`
 
 export OS_TENANT_NAME=$OS_TENANT_NAME
 export OS_USERNAME=$OS_USERNAME
 export OS_PASSWORD=$OS_PASSWORD
 export OS_AUTH_URL=$OS_AUTH_URL
+
+./home/openstack/script/killinstTest.sh
 
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
