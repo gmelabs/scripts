@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sleep 60
+
 IP_Flotante=`gawk        -F'=' '/^IP_Flotante=/{print $2}'        /home/openstack/fichip`
 
 
