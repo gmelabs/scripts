@@ -13,7 +13,7 @@ export OS_USERNAME=$OS_USERNAME
 export OS_PASSWORD=$OS_PASSWORD
 export OS_AUTH_URL=$OS_AUTH_URL
 
-./home/openstack/script/killinstTest.sh
+/home/openstack/script/killinstTest.sh
 
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
