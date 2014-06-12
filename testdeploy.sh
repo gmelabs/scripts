@@ -7,4 +7,8 @@ sshpass -p 'temporal' scp test.sh root@$IP_Flotante:/tmp/
 
 sshpass -p 'temporal' ssh root@$IP_Flotante "'/tmp/test.sh'"
 
+if [ $? -ne 0 ];
+then exit 1;
+fi
+
 rm -f /home/openstack/fichip
