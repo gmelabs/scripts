@@ -7,4 +7,6 @@ then
 else
         echo "aplicación podrida";
         exit -1;
+        
 fi
+
