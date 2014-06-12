@@ -16,7 +16,6 @@ export OS_AUTH_URL=$OS_AUTH_URL
 #Revisamos las IPs Flotantes Disponibles y cargamos en variable la primera libre
 export LB_FL_IP=`nova floating-ip-list | gawk -F'|' '/ None /{print$2}' |gawk '$1=$1' |head -1`
 
-echo IP_Flotante=$LB_FL_IP >> /home/openstack/fichip
 
 #Levantamos la instancia
 
@@ -41,6 +40,8 @@ NC='\e[0m' # No Color
 echo -e "${green}INCLUIMOS LA IP FLOTANTE PARA ACCEDER DESDE EL EXTERIOR${NC}"
 
 nova add-floating-ip $INST_NAME $LB_FL_IP
+
+echo IP_Flotante=$LB_FL_IP >> /home/openstack/fichip
 
 
 sleep 10
